@@ -1,47 +1,81 @@
-```yaml
-RNP(1)                        Systems & Backend Manual                        RNP(1)
+<h1 align="center">Rudra Narayan Panda</h1>
+
+<p align="center">
+  <b>Backend engineer who makes systems faster, cheaper, and harder to break.</b><br>
+  <sub>Go · Rust · AWS · Distributed systems</sub><br>
+  <sub>SWE L2 @ ASBL · Hyderabad</sub>
+</p>
+
+<p align="center">
+  <a href="https://linkedin.com/in/0xrnp">LinkedIn</a> ·
+  <a href="https://x.com/debuggingpanda">X</a> ·
+  <a href="https://github.com/0xrnp/dotfiles">Dotfiles</a> ·
+  <a href="https://leetcode.com/u/0xrnp/">LeetCode</a>
+</p>
+
+```text
+RNP(1)                  Systems & Backend Manual
 
 NAME
-    Rudra Narayan Panda (0xrnp) — backend engineer, latency hunter, terminal minimalist
-
-SYNOPSIS
-    rnp --role="SWE L2 @ ASBL" --prev="Inncircles, Sambuq" --loc="Hyderabad, IN"
-    rnp --stack="Go, Rust, TypeScript, AWS, MongoDB, PostgreSQL, Elasticsearch"
-    rnp --env="Ghostty + Neovim + Tmux (0xrnp/dotfiles)"
+    0xrnp - latency hunter, terminal minimalist
 
 DESCRIPTION
-    Building high-throughput Go microservices and distributed cloud infrastructure.
-    Originated in Odisha ("Sacrifice is the only way!"). Started in chemistry,
-    pivoted to computer applications, now obsessed with storage engines, write paths,
-    and cutting cloud bills in half.
+    Builds high-throughput Go microservices and distributed
+    cloud infrastructure. Started in chemistry, pivoted to
+    computer applications, now obsessed with storage engines,
+    write paths, and cutting database bills without touching
+    latency.
+
+ENVIRONMENT
+    Ghostty + Neovim + Tmux
+
+STACK
+    Go, Rust, TypeScript, AWS (ECS, SQS, EventBridge),
+    MongoDB, PostgreSQL, Elasticsearch
+
+HISTORY
+    ASBL (current) > Sambuq > Inncircles
 ```
+
+## Production impact
 
 ```diff
-# WAL COMPACTION LOG (selected production overwrites & tombstones)
+# WAL COMPACTION LOG (selected production overwrites)
 
   [asbl.mongodb]
-- Atlas M60 cluster burning compute on unindexed collection scans
-+ Rewrote queries + compound indexes -> stepped down to M30 (~55% cheaper, p95 <50ms)
+- Atlas M60 burning compute on unindexed collection scans
++ Rewrote queries + compound indexes
++ Stepped down to M30: ~55% cheaper, p95 < 50ms
 
   [asbl.infra]
-- Ad-hoc cron jobs drifting on servers + manual financial reconciliation
-+ Migrated to AWS ECS Scheduled Tasks + automated EventBridge/SQS pipelines
+- Ad-hoc cron jobs drifting + manual financial reconciliation
++ Moved to ECS Scheduled Tasks
++ Automated EventBridge/SQS reconciliation pipelines
 
   [sambuq.search]
-- Legacy Node.js hot path choking at 1.8s catalog search latency
-+ Rebuilt hot path in Go (3x throughput) + Elasticsearch n-grams (<80ms p95)
+- Node.js hot path choking at 1.8s catalog search
++ Rebuilt in Go: 3x throughput
++ Elasticsearch n-grams: p95 < 80ms
 
   [sambuq.payments]
-- Webhook race conditions and dropped state transitions
-+ Idempotent Razorpay webhook state machine backed by SQS Dead-Letter Queues
+- Webhook race conditions, dropped state transitions
++ Idempotent Razorpay state machine + SQS DLQs
 
   [inncircles.ops]
-- Multi-hour Mean Time To Recovery (MTTR) on production incidents
-+ Standardized telemetry & runbooks -> dropped MTTR to <20 minutes
+- Multi-hour MTTR on production incidents
++ Standardized telemetry + runbooks: MTTR < 20 min
 ```
 
+## Public work
+
+Most of my production work lives in private repos. What you can read and run today:
+
+- [**dotfiles**](https://github.com/0xrnp/dotfiles): the Ghostty + Neovim + Tmux setup I use every day.
+
+## Currently
+
 ```toml
-# /proc/memtable (written to memory, not fsynced yet)
+# /proc/memtable (in memory, not fsynced yet)
 [unflushed]
 rust          = "the compiler is winning"
 cassandra     = "reading the LSM-tree write path & compaction"
@@ -49,9 +83,14 @@ surrealdb     = "poking at storage primitives"
 open_question = "what happens when a node dies mid-write?"
 ```
 
-<div align="center">
-  <a href="https://linkedin.com/in/0xrnp">LinkedIn</a> · 
-  <a href="https://x.com/debuggingpanda">X (@debuggingpanda)</a> · 
-  <a href="https://leetcode.com/u/0xrnp/">LeetCode</a> · 
-  <a href="https://github.com/0xrnp/dotfiles">Dotfiles</a>
-</div>
+## Ask me about
+
+Query tuning and index design · Go service performance · idempotent payment and webhook flows · cutting database costs without hurting latency · incident response and runbooks
+
+## Say hi
+
+Open to conversations about backend, storage, and infra problems. Best reached on [LinkedIn](https://linkedin.com/in/0xrnp) or [X](https://x.com/debuggingpanda).
+
+<p align="center">
+  <sub><i>"Sacrifice is the only way!"</i></sub>
+</p>
