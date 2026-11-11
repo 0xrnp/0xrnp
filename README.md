@@ -27,7 +27,7 @@ DESCRIPTION
     latency.
 
 ENVIRONMENT
-    Ghostty + Neovim + Tmux
+    Rex + Neovim
 
 STACK
     Go, Rust, TypeScript, AWS (ECS, SQS, EventBridge),
