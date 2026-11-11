@@ -15,9 +15,6 @@
 - Ad-hoc cron jobs drifting on stateful EC2 instances + manual finance reconciliation
 + Migrated to deterministic AWS ECS Scheduled Tasks + automated EventBridge pipelines
 
-  [asbl.notify]
-+ Architected multi-tenant Go notification engine processing 100,000+ daily dispatches
-
   [sambuq.search]
 - Legacy Node.js hot path choking at 1.8s latency on catalog queries
 + Rebuilt core service in Go (3x throughput) + Elasticsearch n-gram indexing (under 80ms p95)
