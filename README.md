@@ -27,7 +27,7 @@ DESCRIPTION
     latency.
 
 ENVIRONMENT
-    Rex + Neovim
+    Rex (Superlogical's terminal multiplexer) + Neovim
 
 STACK
     Go, Rust, TypeScript, AWS (ECS, SQS, EventBridge),
@@ -70,7 +70,7 @@ HISTORY
 
 Most of my production work lives in private repos. What you can read and run today:
 
-- [**dotfiles**](https://github.com/0xrnp/dotfiles): the Ghostty + Neovim + Tmux setup I use every day.
+- [**dotfiles**](https://github.com/0xrnp/dotfiles): the [Rex](https://www.superlogical.com) + Neovim setup I use every day.
 
 ## Currently
 
