@@ -1,94 +1,64 @@
-```rust
-// rnp.wal — my career as an append-only log.
-// State is whatever survives replay. Overwrites are the fixes.
+<div align="center">
+  <img src="./banner.svg" alt="0xrnp terminal man page" width="100%" />
+</div>
 
-use std::collections::BTreeMap;
+<br/>
 
-enum Op { Set(&'static str, &'static str), Del(&'static str) }
-use Op::*;
+```diff
+# PRODUCTION CHANGELOG (selected incident & cost reductions)
 
-type Entry = (&'static str, Op); // (epoch, operation)
+  [asbl.atlas]
+- MongoDB Atlas M60 cluster burning compute on unindexed collection scans
++ Rewrote hot queries + compound indexes -> stepped down to M30 (~55% cost cut, p95 under 50ms)
 
-const DURABLE: &[Entry] = &[
-    ("origin",     Set("name",           "Rudra Narayan Panda")),
-    ("origin",     Set("from",           "Odisha")),
-    ("origin",     Set("motto",          "Sacrifice is the only way!")),
-    ("origin",     Set("studying",       "chemistry")),
-    ("mca",        Set("studying",       "computer applications")),
-    ("sambuq",     Del("studying")),
-    ("sambuq",     Set("employer",       "Sambuq")),
-    ("sambuq",     Set("hot_path",       "Node.js")),
-    ("sambuq",     Set("catalog_search", "1.8s")),
-    ("sambuq",     Set("hot_path",       "Go, 3x throughput")),
-    ("sambuq",     Set("catalog_search", "<80ms (Elasticsearch, n-grams)")),
-    ("sambuq",     Set("payments",       "idempotent webhooks, SQS DLQs")),
-    ("inncircles", Set("employer",       "Inncircles")),
-    ("inncircles", Set("mttr",           "hours")),
-    ("inncircles", Set("mttr",           "<20 min")),
-    ("asbl",       Set("employer",       "ASBL")),
-    ("asbl",       Set("based_in",       "Hyderabad")),
-    ("asbl",       Set("mongodb",        "Atlas M60")),
-    ("asbl",       Set("mongodb",        "Atlas M30, ~55% cheaper, p95 <50ms")),
-    ("asbl",       Set("cron",           "on the servers")),
-    ("asbl",       Set("cron",           "ECS scheduled tasks")),
-    ("asbl",       Set("manual_recon",   "yes")),
-    ("asbl",       Del("manual_recon")),
-    ("asbl",       Set("notifications",  "Go, multi-tenant, 100K+ a day")),
-];
+  [asbl.infra]
+- Ad-hoc cron jobs drifting on stateful EC2 instances + manual finance reconciliation
++ Migrated to deterministic AWS ECS Scheduled Tasks + automated EventBridge pipelines
 
-// Written to memtable. Not fsynced yet.
-const MEMTABLE: &[Entry] = &[
-    ("now", Set("rust",          "the compiler is winning")),
-    ("now", Set("cassandra",     "reading the write path")),
-    ("now", Set("surrealdb",     "poking at it")),
-    ("now", Set("open_question", "what happens when a node dies mid-write?")),
-];
+  [asbl.notify]
++ Architected multi-tenant Go notification engine processing 100,000+ daily dispatches
 
-fn replay(log: &[Entry]) -> (BTreeMap<&'static str, &'static str>, usize, usize) {
-    let (mut state, mut overwritten, mut deleted) = (BTreeMap::new(), 0, 0);
-    for &(_, ref op) in log {
-        match *op {
-            Set(k, v) => overwritten += state.insert(k, v).is_some() as usize,
-            Del(k)    => deleted += state.remove(k).is_some() as usize,
-        }
-    }
-    (state, overwritten, deleted)
-}
+  [sambuq.search]
+- Legacy Node.js hot path choking at 1.8s latency on catalog queries
++ Rebuilt core service in Go (3x throughput) + Elasticsearch n-gram indexing (under 80ms p95)
 
-fn main() {
-    let (state, overwritten, deleted) = replay(DURABLE);
-    println!("replayed {} entries: {overwritten} overwritten, {deleted} tombstoned, {} live keys\n",
-        DURABLE.len(), state.len());
-    for (k, v) in &state { println!("  {k:<16}{v}"); }
+  [sambuq.pay]
+- Webhook race conditions and dropped payment state transitions
++ Idempotent Razorpay webhook state machine backed by AWS SQS Dead-Letter Queues
 
-    let (pending, ..) = replay(MEMTABLE);
-    println!("\nmemtable (unflushed):");
-    for (k, v) in &pending { println!("  {k:<16}{v}"); }
-}
+  [inncircles.ops]
+- Multi-hour Mean Time To Recovery (MTTR) during production incidents
++ Standardized telemetry and runbooks -> dropped MTTR to under 20 minutes
 ```
 
-```console
-$ cargo run --quiet
-replayed 24 entries: 8 overwritten, 2 tombstoned, 12 live keys
+<table width="100%">
+  <tr>
+    <td width="50%" valign="top">
+      <b><code>/etc/environment</code> (Daily Drivers)</b>
+      <ul>
+        <li><b>Languages:</b> Go, Rust, TypeScript</li>
+        <li><b>Data & Queue:</b> MongoDB, PostgreSQL, Elasticsearch, SQS</li>
+        <li><b>Infra:</b> AWS (ECS Fargate, EventBridge, Lambda), Docker, Terraform</li>
+        <li><b>Environment:</b> Ghostty · Neovim · Tmux · Zsh (<a href="https://github.com/0xrnp/dotfiles"><code>0xrnp/dotfiles</code></a>)</li>
+      </ul>
+    </td>
+    <td width="50%" valign="top">
+      <b><code>/proc/memtable</code> (Unflushed / Exploring)</b>
+      <ul>
+        <li>Fighting the Rust borrow checker & async runtime internals</li>
+        <li>Dissecting the Cassandra LSM-tree write path & compaction</li>
+        <li>Experimenting with SurrealDB storage primitives</li>
+        <li><i>Open question:</i> What actually happens when a node dies mid-write?</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
-  based_in        Hyderabad
-  catalog_search  <80ms (Elasticsearch, n-grams)
-  cron            ECS scheduled tasks
-  employer        ASBL
-  from            Odisha
-  hot_path        Go, 3x throughput
-  mongodb         Atlas M30, ~55% cheaper, p95 <50ms
-  motto           Sacrifice is the only way!
-  mttr            <20 min
-  name            Rudra Narayan Panda
-  notifications   Go, multi-tenant, 100K+ a day
-  payments        idempotent webhooks, SQS DLQs
-
-memtable (unflushed):
-  cassandra       reading the write path
-  open_question   what happens when a node dies mid-write?
-  rust            the compiler is winning
-  surrealdb       poking at it
-```
-
-[LinkedIn](https://linkedin.com/in/0xrnp) · [X](https://x.com/debuggingpanda) · [LeetCode](https://leetcode.com/u/0xrnp/)
+<div align="center">
+  <sub>
+    <b>Rudra Narayan Panda</b> · Hyderabad, IN (from Odisha) · <i>"Sacrifice is the only way!"</i><br/>
+    <a href="https://linkedin.com/in/0xrnp">LinkedIn</a> · 
+    <a href="https://x.com/debuggingpanda">X (@debuggingpanda)</a> · 
+    <a href="https://leetcode.com/u/0xrnp/">LeetCode</a>
+  </sub>
+</div>
