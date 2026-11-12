@@ -2,7 +2,7 @@
 
 <p align="center">
   <b>Backend engineer who makes systems faster, cheaper, and harder to break.</b><br>
-  <sub>Go · Rust · AWS · Distributed systems</sub><br>
+  <sub>Go · Typescript · AWS · Distributed systems</sub><br>
   <sub>SWE L2 @ ASBL · Hyderabad</sub>
 </p>
 
@@ -10,7 +10,7 @@
   <a href="https://linkedin.com/in/0xrnp">LinkedIn</a> ·
   <a href="https://x.com/debuggingpanda">X</a> ·
   <a href="https://github.com/0xrnp/dotfiles">Dotfiles</a> ·
-  <a href="https://leetcode.com/u/0xrnp/">LeetCode</a>
+  <a href="https://0xrnp.github.io/">Portfolio</a>
 </p>
 
 ```text
@@ -30,11 +30,11 @@ ENVIRONMENT
     Rex (Superlogical's terminal multiplexer) + Neovim
 
 STACK
-    Go, Rust, TypeScript, AWS (ECS, SQS, EventBridge),
+    Go, TypeScript, AWS,
     MongoDB, PostgreSQL, Elasticsearch
 
 HISTORY
-    ASBL (current) > Sambuq > Inncircles
+    ASBL (current) > Inncircles > Sambuq
 ```
 
 ## Production impact
@@ -52,6 +52,10 @@ HISTORY
 + Moved to ECS Scheduled Tasks
 + Automated EventBridge/SQS reconciliation pipelines
 
+  [inncircles.ops]
+- Multi-hour MTTR on production incidents
++ Standardized telemetry + runbooks: MTTR < 20 min
+
   [sambuq.search]
 - Node.js hot path choking at 1.8s catalog search
 + Rebuilt in Go: 3x throughput
@@ -61,9 +65,6 @@ HISTORY
 - Webhook race conditions, dropped state transitions
 + Idempotent Razorpay state machine + SQS DLQs
 
-  [inncircles.ops]
-- Multi-hour MTTR on production incidents
-+ Standardized telemetry + runbooks: MTTR < 20 min
 ```
 
 ## Public work
