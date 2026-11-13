@@ -10,7 +10,7 @@
   <a href="https://linkedin.com/in/0xrnp">LinkedIn</a> ·
   <a href="https://x.com/debuggingpanda">X</a> ·
   <a href="https://github.com/0xrnp/dotfiles">Dotfiles</a> ·
-  <a href="https://0xrnp.github.io/">Portfolio</a>
+  <a href="https://0xrnp.github.io/writing/">Writing</a>
 </p>
 
 ```text
@@ -72,6 +72,10 @@ HISTORY
 Most of my production work lives in private repos. What you can read and run today:
 
 - [**dotfiles**](https://github.com/0xrnp/dotfiles): the [Rex](https://www.superlogical.com) + Neovim setup I use every day.
+
+## Latest writing
+
+- [Reading a MongoDB explain() in five minutes](https://0xrnp.github.io/writing/reading-mongodb-explain/): three numbers that show whether a query is healthy, and the index rule that fixes most slow ones.
 
 ## Currently
 
